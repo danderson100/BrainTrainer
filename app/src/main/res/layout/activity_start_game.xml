@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#CDDC39"
                 android:text="1"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 tools:layout_editor_absoluteX="35dp"
                 tools:layout_editor_absoluteY="387dp" />
 
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#E91E63"
                 android:text="2"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 tools:layout_editor_absoluteX="35dp"
                 tools:layout_editor_absoluteY="387dp" />
         </TableRow>
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#2196F3"
                 android:text="3"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 tools:layout_editor_absoluteX="35dp"
                 tools:layout_editor_absoluteY="387dp" />
 
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#FF9800"
                 android:text="4"
-                android:textSize="30sp"
+                android:textSize="60sp"
                 tools:layout_editor_absoluteX="35dp"
                 tools:layout_editor_absoluteY="387dp" />
         </TableRow>
@@ -94,10 +94,10 @@
         android:background="#FFC107"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="Timer"
+        android:text="0:30"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="17sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -116,10 +116,10 @@
         android:background="#00BCD4"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:text="Timer"
+        android:text="0/0"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="17sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
