@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,13 +15,27 @@ public class StartGameActivity extends AppCompatActivity {
 
     CountDownTimer gameTimer;
     TextView problem;
+    TextView resultText;
+
+    Button topLeft;
+    Button topRight;
+    Button botLeft;
+    Button botRight;
+
     private int solution;
+    private int correctButtonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_game);
 
+        resultText = findViewById(R.id.resultTextView);
+
+        topLeft = findViewById(R.id.topLeftButton);
+        topRight = findViewById(R.id.topRightButton);
+        botLeft = findViewById(R.id.bottomLeftButton);
+        botRight = findViewById(R.id.bottomRightButton);
 
         problem = findViewById(R.id.problemTextView);
         problem.setText(generateRandomProblem());
@@ -44,28 +59,28 @@ public class StartGameActivity extends AppCompatActivity {
     }
 
     private void createAnswerChoices() {
-        Button topLeft = findViewById(R.id.topLeftButton);
-        Button topRight = findViewById(R.id.topRightButton);
-        Button botLeft = findViewById(R.id.bottomLeftButton);
-        Button botRight = findViewById(R.id.bottomRightButton);
 
         Random rand = new Random();
         int correctAnswerButton = rand.nextInt(4);
 
         switch (correctAnswerButton) {
             case 0:
+                correctButtonId = R.id.topLeftButton;
                 topLeft.setText(String.valueOf(solution));
                 fillOtherButtons(topRight, botLeft, botRight, rand);
                 break;
             case 1:
+                correctButtonId = R.id.topRightButton;
                 topRight.setText(String.valueOf(solution));
                 fillOtherButtons(topLeft, botLeft, botRight, rand);
                 break;
             case 2:
+                correctButtonId = R.id.bottomLeftButton;
                 botLeft.setText(String.valueOf(solution));
                 fillOtherButtons(topRight, topLeft, botRight, rand);
                 break;
             case 3:
+                correctButtonId = R.id.bottomRightButton;
                 botRight.setText(String.valueOf(solution));
                 fillOtherButtons(topRight, botLeft, topLeft, rand);
                 break;
@@ -103,5 +118,25 @@ public class StartGameActivity extends AppCompatActivity {
                 Log.i("all finished", "reveal play again button and the textview");
             }
         }.start();
+    }
+
+    public void checkAnswer(View view) {
+        int buttonPressed = view.getId();
+        boolean correct = false;
+        if (buttonPressed == correctButtonId) {
+            //give them + 1 point, display correct in text view
+            correct = true;
+            resultText.setText("Correct!");
+            Log.i("correct", "You got it!");
+        } else {
+            resultText.setText("Wrong :(");
+            Log.i("oops", "you missed it :(");
+        }
+
+        updateScoreboard(correct);
+        problem.setText(generateRandomProblem());
+    }
+
+    private void updateScoreboard(boolean correct) {
     }
 }
