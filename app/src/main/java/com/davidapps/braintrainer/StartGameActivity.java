@@ -2,6 +2,7 @@ package com.davidapps.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -16,6 +17,9 @@ public class StartGameActivity extends AppCompatActivity {
     CountDownTimer gameTimer;
     TextView problem;
     TextView resultText;
+    TextView score;
+
+    Button playAgainButton;
 
     Button topLeft;
     Button topRight;
@@ -32,6 +36,8 @@ public class StartGameActivity extends AppCompatActivity {
 
         resultText = findViewById(R.id.resultTextView);
 
+        playAgainButton = findViewById(R.id.playAgainButton);
+
         topLeft = findViewById(R.id.topLeftButton);
         topRight = findViewById(R.id.topRightButton);
         botLeft = findViewById(R.id.bottomLeftButton);
@@ -39,6 +45,8 @@ public class StartGameActivity extends AppCompatActivity {
 
         problem = findViewById(R.id.problemTextView);
         problem.setText(generateRandomProblem());
+
+        score = findViewById(R.id.scoreTextView);
 
         TextView timerText = findViewById(R.id.timerTextView);
         startCountdown(timerText);
@@ -100,7 +108,6 @@ public class StartGameActivity extends AppCompatActivity {
         gameTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.i("ticking", "one second has passed!");
                 long secondsLeft = millisUntilFinished / 1000;
 
                 String timeString = String.valueOf(secondsLeft);
@@ -115,9 +122,18 @@ public class StartGameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Log.i("all finished", "reveal play again button and the textview");
+                disableOrEnableButtons(false);
+                resultText.setText(R.string.game_over);
+                playAgainButton.setVisibility(View.VISIBLE);
             }
         }.start();
+    }
+
+    private void disableOrEnableButtons(boolean isEnabled) {
+        topLeft.setEnabled(isEnabled);
+        topRight.setEnabled(isEnabled);
+        botLeft.setEnabled(isEnabled);
+        botRight.setEnabled(isEnabled);
     }
 
     public void checkAnswer(View view) {
@@ -126,11 +142,9 @@ public class StartGameActivity extends AppCompatActivity {
         if (buttonPressed == correctButtonId) {
             //give them + 1 point, display correct in text view
             correct = true;
-            resultText.setText("Correct!");
-            Log.i("correct", "You got it!");
+            resultText.setText(R.string.correct);
         } else {
-            resultText.setText("Wrong :(");
-            Log.i("oops", "you missed it :(");
+            resultText.setText(R.string.wrong);
         }
 
         updateScoreboard(correct);
@@ -138,5 +152,28 @@ public class StartGameActivity extends AppCompatActivity {
     }
 
     private void updateScoreboard(boolean correct) {
+        TextView score = findViewById(R.id.scoreTextView);
+
+        String currScore = score.getText().toString();
+        String[] splitScore = currScore.split("/");
+        int currCorrect = Integer.parseInt(splitScore[0]);
+        int currTotal = Integer.parseInt(splitScore[1]);
+
+        if (correct) {
+            currCorrect += 1;
+        }
+        ++currTotal;
+
+        score.setText(currCorrect + "/" + currTotal);
+
+    }
+
+    public void playAgain(View view) {
+        disableOrEnableButtons(true);
+        playAgainButton.setVisibility(View.GONE);
+        gameTimer.start();
+        resultText.setText(R.string.begin);
+        problem.setText(generateRandomProblem());
+        score.setText(R.string._0_0);
     }
 }
